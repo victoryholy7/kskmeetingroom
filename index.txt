@@ -1,0 +1,1117 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบจองห้องประชุม - โรงพยาบาลเขาสุกิม</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mint-green': '#10b981',
+                        'mint-blue': '#06b6d4'
+                    },
+                    fontFamily: {
+                        'thai': ['Kanit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+  <style>
+        body {
+            font-family: 'Kanit', sans-serif;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #ecfdf5 0%, #cffafe 50%, #f0fdfa 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .btn-gradient-mint {
+            background: linear-gradient(135deg, #10b981, #34d399);
+        }
+        .btn-gradient-cyan {
+            background: linear-gradient(135deg, #06b6d4, #22d3ee);
+        }
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+        .header-gradient {
+            background: linear-gradient(135deg, #06b6d4 0%, #10b981 100%);
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen">
+  <!-- Header -->
+  <header class="header-gradient shadow-2xl">
+   <div class="container mx-auto px-4 py-6">
+    <div class="flex justify-between items-center">
+     <div class="flex items-center space-x-4">
+      <div class="bg-white/20 backdrop-blur-sm p-3 rounded-full"><span class="text-5xl">🏥</span>
+      </div>
+      <div>
+       <h1 class="text-3xl font-bold text-white">ระบบจองห้องประชุม</h1>
+       <p class="text-white/80 text-lg">โรงพยาบาลเขาสุกิม</p>
+      </div>
+     </div>
+     <div id="userMenu" class="hidden flex items-center space-x-4"><button id="adminMenuBtn" class="hidden btn-gradient-cyan text-white px-6 py-3 rounded-full hover:shadow-lg transition-all duration-300 font-medium"> ⚙️ จัดการระบบ </button> <button id="logoutBtn" class="px-8 py-3 rounded-full transition-all duration-300 font-medium text-lg" style="background-color: #FFFFFF; color: #0097a7;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='#FFFFFF'"> 🚪 ออกจากระบบ </button>
+     </div>
+     <div id="loginMenu" class="space-x-3"><button id="loginBtn" class="px-10 py-5 rounded-full hover:shadow-lg transition-all duration-300 font-semibold text-xl" style="background-color: #FFFFFF; color: #80B7A2;" onmouseover="this.style.backgroundColor='#f8f9fa'" onmouseout="this.style.backgroundColor='#FFFFFF'"> 🔑 เข้าสู่ระบบ </button>
+     </div>
+    </div>
+   </div>
+  </header>
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 py-8">
+   <!-- Home Page -->
+   <div id="homePage">
+    <div class="text-center mb-12">
+     <h2 class="text-3xl font-bold bg-gradient-to-r from-emerald-600 via-cyan-500 to-white bg-clip-text text-transparent mb-4">ห้องประชุมที่ให้บริการ</h2>
+     <p class="text-gray-600 text-lg">เลือกห้องประชุมเพื่อดูตารางการจอง</p>
+    </div>
+    <div class="grid md:grid-cols-4 gap-8 mb-8">
+     <!-- Room 1 -->
+     <div class="glass-effect rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-cyan-200" onclick="showRoomSchedule('room1')">
+      <div class="text-center">
+       <div class="bg-gradient-to-r from-cyan-400 to-cyan-600 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6"><span class="text-4xl">🏛️</span>
+       </div>
+       <h3 class="text-2xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-700 bg-clip-text text-transparent mb-3">ห้องประชุมอิ่มใจ</h3>
+       <div class="bg-gradient-to-r from-cyan-50 to-cyan-100 rounded-full px-4 py-2 inline-block">
+        <p class="text-cyan-700 font-medium">👥 ความจุ 10 คน</p>
+       </div>
+       <div class="mt-4"><button class="bg-gradient-to-r from-cyan-100 to-cyan-200 hover:from-cyan-200 hover:to-cyan-300 text-cyan-700 px-4 py-2 rounded-full text-sm font-medium transition-all block w-full"> 📅 คลิกเพื่อดูตารางการจอง </button>
+       </div>
+      </div>
+     </div>
+     <!-- Room 2 -->
+     <div class="glass-effect rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-teal-200" onclick="showRoomSchedule('room2')">
+      <div class="text-center">
+       <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background: linear-gradient(270deg, #0097a7, #b2ebf2);"><span class="text-4xl">🏬</span>
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="background: linear-gradient(270deg, #0097a7, #006064); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">ห้องประชุมอิ่มสุข</h3>
+       <div class="rounded-full px-4 py-2 inline-block" style="background: linear-gradient(270deg, #0097a7, #b2ebf2);">
+        <p class="font-medium" style="color: #004d40;">👥 ความจุ 40 คน</p>
+       </div>
+       <div class="mt-4"><button class="px-4 py-2 rounded-full text-sm font-medium transition-all block w-full hover:shadow-lg" style="background: linear-gradient(270deg, #0097a7, #b2ebf2); color: #004d40;" onmouseover="this.style.background='linear-gradient(270deg, #00838f, #80cbc4)'" onmouseout="this.style.background='linear-gradient(270deg, #0097a7, #b2ebf2)'"> 📅 คลิกเพื่อดูตารางการจอง </button>
+       </div>
+      </div>
+     </div>
+     <!-- Room 3 -->
+     <div class="glass-effect rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-teal-200" onclick="showRoomSchedule('room3')">
+      <div class="text-center">
+       <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background: linear-gradient(135deg, #00695c, #b2dfdb);"><span class="text-4xl">🏰</span>
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="background: linear-gradient(135deg, #00695c, #004d40); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">ห้องประชุมเนตรประชา</h3>
+       <div class="rounded-full px-4 py-2 inline-block" style="background: linear-gradient(135deg, #b2dfdb, #80cbc4);">
+        <p class="font-medium" style="color: #004d40;">👥 ความจุ 100 คน</p>
+       </div>
+       <div class="mt-4"><button class="px-4 py-2 rounded-full text-sm font-medium transition-all block w-full hover:shadow-lg" style="background: linear-gradient(135deg, #b2dfdb, #80cbc4); color: #004d40;" onmouseover="this.style.background='linear-gradient(135deg, #80cbc4, #4db6ac)'" onmouseout="this.style.background='linear-gradient(135deg, #b2dfdb, #80cbc4)'"> 📅 คลิกเพื่อดูตารางการจอง </button>
+       </div>
+      </div>
+     </div>
+     <!-- Room 4 -->
+     <div class="glass-effect rounded-2xl shadow-xl p-8 card-hover cursor-pointer border border-pink-200" onclick="showRoomSchedule('room4')">
+      <div class="text-center">
+       <div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6" style="background: linear-gradient(135deg, #f8bbd9, #e1bee7);"><span class="text-4xl">💼</span>
+       </div>
+       <h3 class="text-2xl font-bold mb-3" style="background: linear-gradient(135deg, #d81b60, #8e24aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Working Space</h3>
+       <div class="rounded-full px-4 py-2 inline-block" style="background: linear-gradient(135deg, #fce4ec, #f8bbd9);">
+        <p class="font-medium" style="color: #ad1457;">👥 ความจุ 20 คน</p>
+       </div>
+       <div class="mt-4"><button class="px-4 py-2 rounded-full text-sm font-medium transition-all block w-full hover:shadow-lg" style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); color: #ad1457;" onmouseover="this.style.background='linear-gradient(135deg, #f8bbd9, #f48fb1)'" onmouseout="this.style.background='linear-gradient(135deg, #fce4ec, #f8bbd9)'"> 📅 คลิกเพื่อดูตารางการจอง </button>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+   <!-- Room Schedule Modal -->
+   <div id="scheduleModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-4xl w-full mx-4 max-h-96 overflow-y-auto border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-center mb-6">
+      <h3 id="scheduleTitle" class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent"></h3><button onclick="closeScheduleModal()" class="text-red-500 hover:text-red-700 text-3xl transition-colors duration-200 hover:bg-red-100 rounded-full w-10 h-10 flex items-center justify-center font-bold">×</button>
+     </div>
+     <div id="scheduleContent" class="space-y-4"></div>
+    </div>
+   </div>
+   <!-- Login Modal -->
+   <div id="loginModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🔑</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-cyan-600 to-cyan-700 bg-clip-text text-transparent">เข้าสู่ระบบ</h3>
+      </div><button onclick="closeLoginModal()" class="text-red-500 hover:text-red-700 text-2xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+     </div>
+     <form id="loginForm" class="space-y-6">
+      <div><label class="block text-gray-700 mb-3 font-medium">เลขบัตรประชาชน 4 ตัวท้าย หรือ อีเมล์</label> <input type="text" id="loginId" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200" required>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">รหัสผ่าน</label>
+       <div class="relative"><input type="password" id="loginPassword" class="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-cyan-400 focus:border-transparent transition-all duration-200" required> <button type="button" onclick="togglePassword('loginPassword', this)" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"> 👁️ </button>
+       </div>
+      </div>
+      <div class="flex space-x-4 pt-4"><button type="submit" class="flex-1 btn-gradient-cyan text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">เข้าสู่ระบบ</button> <button type="button" onclick="closeLoginModal()" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยกเลิก</button>
+      </div>
+      <div class="text-center mt-4">
+       <p class="text-gray-600 mb-3">ยังไม่มีบัญชี?</p><button type="button" onclick="showRegisterFromLogin()" class="btn-gradient-mint text-white px-6 py-2 rounded-xl hover:shadow-lg transition-all duration-300 font-medium"> 📝 สมัครสมาชิก </button>
+       <div class="mt-3"><button type="button" onclick="showForgotPasswordModal()" class="text-cyan-600 hover:text-cyan-800 text-sm underline"> 🔑 ลืมรหัสผ่าน? </button>
+       </div>
+      </div>
+     </form>
+    </div>
+   </div>
+   <!-- Register Modal -->
+   <div id="registerModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-emerald-500 to-emerald-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">📝</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-emerald-700 bg-clip-text text-transparent">สมัครสมาชิก</h3>
+      </div><button onclick="closeRegisterModal()" class="text-red-500 hover:text-red-700 text-2xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+     </div>
+     <form id="registerForm" class="space-y-6">
+      <div><label class="block text-gray-700 mb-3 font-medium">เลขบัตรประชาชน 4 ตัวท้าย</label> <input type="text" id="regId" maxlength="4" pattern="[0-9]{4}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">รหัสผ่าน</label>
+       <div class="relative"><input type="password" id="regPassword" class="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required> <button type="button" onclick="togglePassword('regPassword', this)" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"> 👁️ </button>
+       </div>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">ชื่อ</label> <input type="text" id="regName" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required>
+      </div>
+      <div class="flex space-x-4 pt-4"><button type="submit" class="flex-1 btn-gradient-mint text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">สมัครสมาชิก</button> <button type="button" onclick="closeRegisterModal()" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยกเลิก</button>
+      </div>
+     </form>
+    </div>
+   </div>
+   <!-- Booking Modal -->
+   <div id="bookingModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">📅</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent">จองห้องประชุม</h3>
+      </div><button onclick="closeBookingModal()" class="text-red-500 hover:text-red-700 text-3xl transition-colors duration-200 hover:bg-red-100 rounded-full w-10 h-10 flex items-center justify-center font-bold">×</button>
+     </div>
+     <form id="bookingForm" class="space-y-6">
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label class="block text-gray-700 mb-3 font-medium">ห้องประชุม</label> <select id="bookingRoom" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required> <option value="">เลือกห้องประชุม</option> <option value="room1">🏢 ห้องประชุมอิ่มใจ (10 คน)</option> <option value="room2">🏢 ห้องประชุมอิ่มสุข (40 คน)</option> <option value="room3">🏢 ห้องประชุมเนตรประชา (100 คน)</option> <option value="room4">💼 Working Space (20 คน)</option> </select>
+       </div>
+       <div><label class="block text-gray-700 mb-3 font-medium">วันที่ (สามารถเลือกได้หลายวัน)</label>
+        <div class="space-y-2"><input type="date" id="bookingDate" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required>
+         <div id="selectedDates" class="flex flex-wrap gap-2 mt-2"></div><button type="button" onclick="addSelectedDate()" class="text-sm bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full hover:bg-emerald-200 transition-colors"> ➕ เพิ่มวันที่ </button>
+        </div>
+       </div>
+       <div><label class="block text-gray-700 mb-3 font-medium">เวลาเริ่มต้น</label> <select id="bookingStartTime" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required> <option value="">เลือกเวลา</option> </select>
+       </div>
+       <div><label class="block text-gray-700 mb-3 font-medium">เวลาสิ้นสุด</label> <select id="bookingEndTime" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required> <option value="">เลือกเวลา</option> </select>
+       </div>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">อุปกรณ์ที่ต้องการ</label>
+       <div class="grid grid-cols-2 gap-3 bg-gray-50 p-4 rounded-xl"><label class="flex items-center p-2 hover:bg-white rounded-lg transition-colors cursor-pointer"> <input type="checkbox" value="Notebook" class="mr-3 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"> <span>💻 Notebook</span> </label> <label class="flex items-center p-2 hover:bg-white rounded-lg transition-colors cursor-pointer"> <input type="checkbox" value="ไมโครโฟน" class="mr-3 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"> <span>🎤 ไมโครโฟน</span> </label> <label class="flex items-center p-2 hover:bg-white rounded-lg transition-colors cursor-pointer"> <input type="checkbox" value="LCD" class="mr-3 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"> <span>📺 LCD</span> </label> <label class="flex items-center p-2 hover:bg-white rounded-lg transition-colors cursor-pointer"> <input type="checkbox" value="ระบบ zoom" class="mr-3 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"> <span>💻 ระบบ Zoom</span> </label> <label class="flex items-center p-2 hover:bg-white rounded-lg transition-colors cursor-pointer col-span-2"> <input type="checkbox" value="ไม่ต้องการใช้" class="mr-3 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500"> <span>❌ ไม่ต้องการใช้</span> </label>
+       </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6">
+       <div><label class="block text-gray-700 mb-3 font-medium">ชื่อผู้จอง</label> <input type="text" id="bookerName" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required>
+       </div>
+       <div><label class="block text-gray-700 mb-3 font-medium">เบอร์โทรศัพท์</label> <input type="tel" id="bookerPhone" pattern="[0-9]*" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required>
+       </div>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">กลุ่มงาน</label> <select id="workGroup" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-transparent transition-all duration-200" required> <option value="">เลือกกลุ่มงาน</option> <option value="กลุ่มงานการแพทย์">กลุ่มงานการแพทย์</option> <option value="กลุ่มงานทันตกรรม">กลุ่มงานทันตกรรม</option> <option value="กลุ่มงานเภสัชกรรมฯ">กลุ่มงานเภสัชกรรมฯ</option> <option value="กลุ่มงานการพยาบาล">กลุ่มงานการพยาบาล</option> <option value="กลุ่มงานบริการด้านปฐมภูมิฯ">กลุ่มงานบริการด้านปฐมภูมิฯ</option> <option value="กลุ่มงานการแพทย์แผนไทยฯ">กลุ่มงานการแพทย์แผนไทยฯ</option> <option value="กลุ่มงานเวชกรรมฟื้นฟู">กลุ่มงานเวชกรรมฟื้นฟู</option> <option value="กลุ่มงานรังสีวิทยา">กลุ่มงานรังสีวิทยา</option> <option value="กลุ่มงานเทคนิคการแพทย์">กลุ่มงานเทคนิคการแพทย์</option> <option value="กลุ่มงานสุขภาพดิจิทัล">กลุ่มงานสุขภาพดิจิทัล</option> <option value="กลุ่มงานประกันสุขภาพฯ">กลุ่มงานประกันสุขภาพฯ</option> <option value="กลุ่มงานบริหารทั่วไป">กลุ่มงานบริหารทั่วไป</option> <option value="กลุ่มงานจิตเวชและยาเสพติด">กลุ่มงานจิตเวชและยาเสพติด</option> <option value="กลุ่มงานโภชนศาสตร์">กลุ่มงานโภชนศาสตร์</option> </select>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">หัวข้อประชุม/อบรม</label> <textarea id="meetingTopic" rows="3" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-400 focus:border-transparent transition-all duration-200 resize-none" required></textarea>
+      </div>
+      <div class="flex space-x-4 pt-4"><button type="submit" class="flex-1 bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">จองห้องประชุม</button> <button type="button" onclick="closeBookingModal()" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยกเลิก</button>
+      </div>
+     </form>
+    </div>
+   </div>
+   <!-- Admin Panel -->
+   <div id="adminPanel" class="hidden">
+    <div class="flex justify-between items-center mb-12">
+     <div class="flex-1 text-center">
+      <h2 class="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-mint-green bg-clip-text text-transparent mb-4">⚙️ จัดการระบบ</h2>
+      <p class="text-gray-600 text-lg">อนุมัติหรือปฏิเสธการจองห้องประชุม</p>
+     </div><button onclick="backToHome()" class="text-red-500 hover:text-red-700 text-3xl transition-colors duration-200 hover:bg-red-100 rounded-full w-12 h-12 flex items-center justify-center"> × </button>
+    </div>
+    <!-- Pending Bookings -->
+    <div class="glass-effect rounded-2xl shadow-xl p-8 border border-white/20 mb-8">
+     <h3 class="text-2xl font-bold mb-6 text-blue-600">📋 รายการจองที่รออนุมัติ</h3>
+     <div id="pendingBookings" class="space-y-6"></div>
+    </div>
+    <!-- Cancelled Bookings -->
+    <div class="glass-effect rounded-2xl shadow-xl p-8 border border-white/20 mb-8">
+     <h3 class="text-2xl font-bold mb-6 text-gray-600">🗑️ รายการที่ยกเลิก</h3>
+     <div id="cancelledBookings" class="space-y-6"></div>
+    </div>
+    <!-- Booking History Calendar -->
+    <div class="glass-effect rounded-2xl shadow-xl p-8 border border-white/20">
+     <h3 class="text-2xl font-bold mb-6 text-purple-600">📅 ปฏิทินประวัติการจอง</h3>
+     <div id="bookingHistory" class="space-y-6"></div>
+    </div>
+   </div>
+   <!-- Booking Detail Modal -->
+   <div id="bookingDetailModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-2xl w-full mx-4 max-h-96 overflow-y-auto border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-purple-500 to-purple-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">📋</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-purple-700 bg-clip-text text-transparent">รายละเอียดการจอง</h3>
+      </div><button onclick="closeBookingDetailModal()" class="text-red-500 hover:text-red-700 text-3xl transition-colors duration-200 hover:bg-red-100 rounded-full w-10 h-10 flex items-center justify-center font-bold">×</button>
+     </div>
+     <div id="bookingDetailContent" class="space-y-4"></div>
+    </div>
+   </div>
+   <!-- Forgot Password Modal -->
+   <div id="forgotPasswordModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-orange-500 to-orange-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">🔑</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-orange-600 to-orange-700 bg-clip-text text-transparent">เปลี่ยนรหัสผ่าน</h3>
+      </div><button onclick="closeForgotPasswordModal()" class="text-red-500 hover:text-red-700 text-2xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+     </div>
+     <form id="forgotPasswordForm" class="space-y-6">
+      <div><label class="block text-gray-700 mb-3 font-medium">เลขบัตรประชาชน 4 ตัวท้าย</label> <input type="text" id="forgotId" maxlength="4" pattern="[0-9]{4}" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200" required>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">รหัสผ่านใหม่</label>
+       <div class="relative"><input type="password" id="newPassword" class="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200" required> <button type="button" onclick="togglePassword('newPassword', this)" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"> 👁️ </button>
+       </div>
+      </div>
+      <div><label class="block text-gray-700 mb-3 font-medium">ยืนยันรหัสผ่านใหม่</label>
+       <div class="relative"><input type="password" id="confirmNewPassword" class="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent transition-all duration-200" required> <button type="button" onclick="togglePassword('confirmNewPassword', this)" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"> 👁️ </button>
+       </div>
+      </div>
+      <div class="flex space-x-4 pt-4"><button type="submit" class="flex-1 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">เปลี่ยนรหัสผ่าน</button> <button type="button" onclick="closeForgotPasswordModal()" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยกเลิก</button>
+      </div>
+     </form>
+    </div>
+   </div>
+   <!-- Reject Modal -->
+   <div id="rejectModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm">
+    <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+     <div class="flex justify-between items-start mb-8">
+      <div class="flex-1 text-center">
+       <div class="bg-gradient-to-r from-red-500 to-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><span class="text-2xl">❌</span>
+       </div>
+       <h3 class="text-3xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent">ไม่อนุมัติการจอง</h3>
+      </div><button onclick="closeRejectModal()" class="text-red-500 hover:text-red-700 text-2xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+     </div>
+     <form id="rejectForm" class="space-y-6">
+      <div><label class="block text-gray-700 mb-3 font-medium">เหตุผลที่ไม่อนุมัติ</label> <textarea id="rejectReason" rows="4" class="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent transition-all duration-200 resize-none" placeholder="กรุณาระบุเหตุผล..." required></textarea>
+      </div>
+      <div class="flex space-x-4 pt-4"><button type="submit" class="flex-1 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยืนยันไม่อนุมัติ</button> <button type="button" onclick="closeRejectModal()" class="flex-1 bg-gradient-to-r from-gray-500 to-gray-600 text-white py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">ยกเลิก</button>
+      </div>
+     </form>
+    </div>
+   </div>
+   <!-- My Bookings -->
+   <div id="myBookings" class="hidden mt-12">
+    <div class="glass-effect rounded-2xl shadow-xl p-8 border border-white/20">
+     <h3 class="text-2xl font-bold mb-6 bg-gradient-to-r from-pink-600 to-blue-600 bg-clip-text text-transparent">📋 การจองของฉัน</h3>
+     <div id="userBookingsList" class="space-y-6"></div>
+    </div>
+   </div>
+  </main>
+  <script>
+        // ============================================================
+        // เชื่อมต่อกับ Google Apps Script (code.gs) ที่ deploy เป็น Web App
+        // วิธี deploy: เปิด Apps Script -> Deploy -> New deployment -> Web app
+        //   Execute as: Me, Who has access: Anyone
+        // แล้วนำ URL ที่ได้มาใส่แทนค่าด้านล่างนี้
+        // ============================================================
+        const API_URL = 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec';
+
+        // เรียก API ของ Apps Script (ใช้ text/plain เพื่อเลี่ยง CORS preflight)
+        async function apiCall(action, payload = {}) {
+            const res = await fetch(API_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify({ action, payload })
+            });
+            const data = await res.json();
+            if (!data.success) {
+                throw new Error(data.message || 'เกิดข้อผิดพลาด');
+            }
+            return data.result;
+        }
+
+        let currentUser = null;
+        let bookings = [];
+        let selectedDatesArray = [];
+
+        // Add selected date function
+        function addSelectedDate() {
+            const dateInput = document.getElementById('bookingDate');
+            const selectedDate = dateInput.value;
+            
+            if (!selectedDate) {
+                alert('⚠️ กรุณาเลือกวันที่ก่อน');
+                return;
+            }
+            
+            if (!isWeekday(selectedDate)) {
+                alert('⚠️ สามารถจองได้เฉพาะวันจันทร์ - ศุกร์ เท่านั้น');
+                return;
+            }
+            
+            if (selectedDatesArray.includes(selectedDate)) {
+                alert('⚠️ วันที่นี้ได้เลือกไว้แล้ว');
+                return;
+            }
+            
+            selectedDatesArray.push(selectedDate);
+            updateSelectedDatesDisplay();
+            dateInput.value = '';
+        }
+        
+        function removeSelectedDate(date) {
+            selectedDatesArray = selectedDatesArray.filter(d => d !== date);
+            updateSelectedDatesDisplay();
+        }
+        
+        function updateSelectedDatesDisplay() {
+            const container = document.getElementById('selectedDates');
+            if (selectedDatesArray.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            container.innerHTML = selectedDatesArray.map(date => {
+                const dateObj = new Date(date);
+                const dateStr = dateObj.toLocaleDateString('th-TH', {
+                    weekday: 'short',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                
+                return `
+                    <span class="inline-flex items-center bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-sm">
+                        📅 ${dateStr}
+                        <button type="button" onclick="removeSelectedDate('${date}')" class="ml-2 text-red-500 hover:text-red-700">×</button>
+                    </span>
+                `;
+            }).join('');
+        }
+
+        // Initialize time options
+        function initializeTimeOptions() {
+            const startSelect = document.getElementById('bookingStartTime');
+            const endSelect = document.getElementById('bookingEndTime');
+            
+            startSelect.innerHTML = '<option value="">เลือกเวลา</option>';
+            endSelect.innerHTML = '<option value="">เลือกเวลา</option>';
+            
+            for (let hour = 6; hour <= 18; hour++) {
+                for (let minute = 0; minute < 60; minute += 15) {
+                    const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                    startSelect.innerHTML += `<option value="${timeStr}">${timeStr}</option>`;
+                    if (!(hour === 18 && minute > 0)) {
+                        endSelect.innerHTML += `<option value="${timeStr}">${timeStr}</option>`;
+                    }
+                }
+            }
+        }
+
+        function isWeekday(date) {
+            const day = new Date(date).getDay();
+            return day >= 1 && day <= 5;
+        }
+
+        document.getElementById('bookingDate').addEventListener('change', function() {
+            const selectedDate = this.value;
+            if (!isWeekday(selectedDate)) {
+                alert('⚠️ สามารถจองได้เฉพาะวันจันทร์ - ศุกร์ เท่านั้น');
+                this.value = '';
+            }
+        });
+
+        document.getElementById('bookerPhone').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        document.getElementById('regId').addEventListener('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        function togglePassword(inputId, button) {
+            const input = document.getElementById(inputId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                button.textContent = '👁️';
+            }
+        }
+
+        function showSuccessPopup(title, message) {
+            const popup = document.createElement('div');
+            popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm';
+            popup.innerHTML = `
+                <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+                    <div class="text-center">
+                        <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">✅</span>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent mb-2">${title}</h3>
+                        <p class="text-gray-600 mb-6">${message}</p>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                class="btn-gradient-mint text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">
+                            ตกลง
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+            setTimeout(() => { if (popup.parentNode) popup.remove(); }, 3000);
+        }
+
+        function showErrorPopup(title, message) {
+            const popup = document.createElement('div');
+            popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm';
+            popup.innerHTML = `
+                <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+                    <div class="text-center">
+                        <div class="bg-gradient-to-r from-red-500 to-red-600 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl">❌</span>
+                        </div>
+                        <h3 class="text-2xl font-bold bg-gradient-to-r from-red-600 to-red-700 bg-clip-text text-transparent mb-2">${title}</h3>
+                        <p class="text-gray-600 mb-6">${message}</p>
+                        <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">
+                            ตกลง
+                        </button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(popup);
+        }
+
+        // Modal functions
+        function showLoginModal() { document.getElementById('loginModal').classList.remove('hidden'); }
+        function closeLoginModal() {
+            document.getElementById('loginModal').classList.add('hidden');
+            document.getElementById('loginForm').reset();
+        }
+        function showForgotPasswordModal() {
+            closeLoginModal();
+            document.getElementById('forgotPasswordModal').classList.remove('hidden');
+        }
+        function closeForgotPasswordModal() {
+            document.getElementById('forgotPasswordModal').classList.add('hidden');
+            document.getElementById('forgotPasswordForm').reset();
+        }
+        function showRegisterModal() { document.getElementById('registerModal').classList.remove('hidden'); }
+        function showRegisterFromLogin() { closeLoginModal(); showRegisterModal(); }
+        function closeRegisterModal() {
+            document.getElementById('registerModal').classList.add('hidden');
+            document.getElementById('registerForm').reset();
+        }
+        function showBookingModal(preselectedRoom = '') {
+            document.getElementById('bookingModal').classList.remove('hidden');
+            initializeTimeOptions();
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('bookingDate').min = today;
+            if (preselectedRoom) document.getElementById('bookingRoom').value = preselectedRoom;
+        }
+        function closeBookingModal() {
+            document.getElementById('bookingModal').classList.add('hidden');
+            document.getElementById('bookingForm').reset();
+            selectedDatesArray = [];
+            updateSelectedDatesDisplay();
+        }
+
+        function showRoomSchedule(roomId) {
+            const roomNames = {
+                'room1': 'ห้องประชุมอิ่มใจ', 'room2': 'ห้องประชุมอิ่มสุข',
+                'room3': 'ห้องประชุมเนตรประชา', 'room4': 'Working Space'
+            };
+            document.getElementById('scheduleTitle').textContent = `📅 ตารางการจอง ${roomNames[roomId]}`;
+            const roomBookings = bookings.filter(booking => booking.room === roomId && booking.status !== 'cancelled');
+
+            let scheduleHTML = `
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse border border-gray-300 rounded-lg">
+                        <thead>
+                            <tr class="bg-gradient-to-r from-emerald-500 to-cyan-500 text-white">
+                                <th class="border border-gray-300 px-4 py-3 text-left font-medium">วันที่</th>
+                                <th class="border border-gray-300 px-4 py-3 text-left font-medium">เวลา</th>
+                                <th class="border border-gray-300 px-4 py-3 text-left font-medium">ผู้จอง</th>
+                                <th class="border border-gray-300 px-4 py-3 text-left font-medium">หัวข้อ</th>
+                                <th class="border border-gray-300 px-4 py-3 text-center font-medium">สถานะ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+            `;
+            if (roomBookings.length === 0) {
+                scheduleHTML += `
+                            <tr><td colspan="5" class="border border-gray-300 px-4 py-8 text-center text-gray-500">
+                                ยังไม่มีการจองที่อนุมัติแล้วในห้องนี้
+                            </td></tr>`;
+            } else {
+                roomBookings.sort((a, b) => {
+                    if (a.date !== b.date) return new Date(a.date) - new Date(b.date);
+                    return a.startTime.localeCompare(b.startTime);
+                });
+                roomBookings.forEach(booking => {
+                    const bookingDate = new Date(booking.date);
+                    const dateStr = bookingDate.toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                    let statusBadge = '';
+                    if (booking.status === 'approved') statusBadge = '<span class="px-3 py-1 bg-green-200 text-green-800 rounded-full text-sm font-medium whitespace-nowrap">✅ จองแล้ว</span>';
+                    else if (booking.status === 'pending') statusBadge = '<span class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm font-medium whitespace-nowrap">⏳ รออนุมัติ</span>';
+                    else if (booking.status === 'rejected') statusBadge = '<span class="px-3 py-1 bg-red-200 text-red-800 rounded-full text-sm font-medium whitespace-nowrap">❌ ไม่อนุมัติ</span>';
+                    scheduleHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-3">${dateStr}</td>
+                            <td class="border border-gray-300 px-4 py-3 whitespace-nowrap">${booking.startTime} น. - ${booking.endTime} น.</td>
+                            <td class="border border-gray-300 px-4 py-3">${booking.bookerName}<br><small class="text-gray-600">${booking.workGroup}</small></td>
+                            <td class="border border-gray-300 px-4 py-3">${booking.topic}</td>
+                            <td class="border border-gray-300 px-4 py-3 text-center">${statusBadge}</td>
+                        </tr>`;
+                });
+            }
+            scheduleHTML += `
+                        </tbody>
+                    </table>
+                </div>
+                ${currentUser ? `
+                    <div class="mt-6 text-center">
+                        <button onclick="closeScheduleModal(); showBookingModal('${roomId}')" 
+                                class="bg-gradient-to-r from-cyan-500 to-cyan-600 hover:from-cyan-600 hover:to-cyan-700 text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">
+                            📝 จองห้องนี้
+                        </button>
+                    </div>` : ''}`;
+            document.getElementById('scheduleContent').innerHTML = scheduleHTML;
+            document.getElementById('scheduleModal').classList.remove('hidden');
+        }
+        function closeScheduleModal() { document.getElementById('scheduleModal').classList.add('hidden'); }
+
+        // ----------------- Authentication -----------------
+        async function login(identifier, password) {
+            try {
+                const result = await apiCall('login', { identifier, password });
+                currentUser = result.user;
+                showSuccessPopup('🎉 เข้าสู่ระบบสำเร็จ!', `ยินดีต้อนรับ ${currentUser.name}`);
+                updateUI();
+                closeLoginModal();
+                loadBookings();
+            } catch (error) {
+                showErrorPopup('เข้าสู่ระบบไม่สำเร็จ', error.message);
+            }
+        }
+
+        async function register(idCard, password, name) {
+            try {
+                if (idCard.length !== 4 || !/^\d+$/.test(idCard)) throw new Error('กรุณาใส่เลขบัตรประชาชน 4 ตัวท้าย (ตัวเลขเท่านั้น)');
+                if (password.length < 4) throw new Error('รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร');
+                if (name.trim().length < 2) throw new Error('กรุณาใส่ชื่อ-นามสกุลให้ครบถ้วน');
+                await apiCall('register', { idCard, password, name: name.trim() });
+                showSuccessPopup('🎉 สมัครสมาชิกสำเร็จ!', `ยินดีต้อนรับ ${name} สามารถเข้าสู่ระบบได้แล้ว`);
+                closeRegisterModal();
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        }
+
+        async function changePassword(idCard, newPassword, confirmPassword) {
+            try {
+                if (idCard.length !== 4 || !/^\d+$/.test(idCard)) throw new Error('กรุณาใส่เลขบัตรประชาชน 4 ตัวท้าย (ตัวเลขเท่านั้น)');
+                if (newPassword.length < 4) throw new Error('รหัสผ่านใหม่ต้องมีอย่างน้อย 4 ตัวอักษร');
+                if (newPassword !== confirmPassword) throw new Error('รหัสผ่านใหม่และยืนยันรหัสผ่านไม่ตรงกัน');
+                await apiCall('changePassword', { idCard, newPassword });
+                showSuccessPopup('🎉 เปลี่ยนรหัสผ่านสำเร็จ!', 'รหัสผ่านของคุณได้ถูกเปลี่ยนเรียบร้อยแล้ว');
+                closeForgotPasswordModal();
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        }
+
+        async function createBooking(bookingData) {
+            try {
+                const datesToBook = selectedDatesArray.length > 0 ? selectedDatesArray : [bookingData.date];
+                const result = await apiCall('createBooking', {
+                    ...bookingData,
+                    dates: datesToBook,
+                    userId: currentUser.id
+                });
+                const successMessage = datesToBook.length > 1 ?
+                    `การจองของคุณได้ถูกส่งไปรอการอนุมัติแล้ว (${datesToBook.length} วัน)` :
+                    'การจองของคุณได้ถูกส่งไปรอการอนุมัติแล้ว';
+                showSuccessPopup('🎉 จองห้องประชุมสำเร็จ!', successMessage);
+                closeBookingModal();
+                loadBookings();
+            } catch (error) {
+                alert('❌ ' + error.message);
+            }
+        }
+
+        async function cancelBooking(bookingId) {
+            try {
+                await apiCall('cancelBooking', { bookingId, userId: currentUser.id });
+                const popup = document.createElement('div');
+                popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 backdrop-blur-sm';
+                popup.innerHTML = `
+                    <div class="glass-effect rounded-2xl p-8 max-w-md w-full mx-4 border border-white/20 shadow-2xl">
+                        <div class="text-center">
+                            <div class="bg-gradient-to-r from-emerald-500 to-cyan-500 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl">✅</span>
+                            </div>
+                            <h3 class="text-2xl font-bold bg-gradient-to-r from-emerald-600 to-cyan-600 bg-clip-text text-transparent mb-2">ยกเลิกการจองเรียบร้อยแล้ว</h3>
+                            <p class="text-gray-600 mb-6">การจองของคุณได้ถูกยกเลิกเรียบร้อยแล้ว</p>
+                            <button onclick="this.parentElement.parentElement.parentElement.remove()" 
+                                    class="btn-gradient-mint text-white px-6 py-3 rounded-xl hover:shadow-lg transition-all duration-300 font-medium">
+                                ตกลง
+                            </button>
+                        </div>
+                    </div>`;
+                document.body.appendChild(popup);
+                setTimeout(() => { if (popup.parentNode) popup.remove(); }, 3000);
+                loadBookings();
+                if (currentUser.role === 'admin') loadAdminPanel();
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        async function loadBookings() {
+            try {
+                const result = await apiCall('listBookings', {});
+                bookings = result.bookings;
+                displayUserBookings();
+                if (currentUser && currentUser.role === 'admin') loadAdminPanel();
+            } catch (error) {
+                console.error('Error loading bookings:', error);
+            }
+        }
+
+        function displayUserBookings() {
+            if (!currentUser) return;
+            const userBookings = bookings.filter(booking => booking.userId === currentUser.id);
+            const container = document.getElementById('userBookingsList');
+            if (userBookings.length === 0) {
+                container.innerHTML = '<p class="text-gray-500 text-center">ยังไม่มีการจอง</p>';
+                return;
+            }
+            const roomNames = { 'room1': 'ห้องประชุมอิ่มใจ', 'room2': 'ห้องประชุมอิ่มสุข', 'room3': 'ห้องประชุมเนตรประชา', 'room4': 'Working Space' };
+            container.innerHTML = userBookings.map(booking => {
+                let roomBgColor, roomTextColor, roomBorderColor;
+                switch (booking.room) {
+                    case 'room1': roomBgColor = 'bg-gradient-to-br from-cyan-50 to-cyan-100'; roomTextColor = 'text-cyan-800'; roomBorderColor = 'border-l-4 border-cyan-400'; break;
+                    case 'room2': roomBgColor = 'bg-gradient-to-br from-teal-50 to-teal-100'; roomTextColor = 'text-teal-800'; roomBorderColor = 'border-l-4 border-teal-400'; break;
+                    case 'room3': roomBgColor = 'bg-gradient-to-br from-emerald-50 to-emerald-100'; roomTextColor = 'text-emerald-800'; roomBorderColor = 'border-l-4 border-emerald-500'; break;
+                    case 'room4': roomBgColor = 'bg-gradient-to-br from-pink-50 to-pink-100'; roomTextColor = 'text-pink-800'; roomBorderColor = 'border-l-4 border-pink-400'; break;
+                    default: roomBgColor = 'bg-gray-50'; roomTextColor = 'text-gray-800'; roomBorderColor = 'border-l-4 border-gray-400';
+                }
+                let statusBadge = '';
+                if (booking.status === 'approved') statusBadge = '<span class="px-3 py-1 bg-green-200 text-green-800 rounded-full text-sm font-medium whitespace-nowrap">✅ จองแล้ว</span>';
+                else if (booking.status === 'pending') statusBadge = '<span class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded-full text-sm font-medium whitespace-nowrap">⏳ รออนุมัติ</span>';
+                else if (booking.status === 'cancelled') statusBadge = '<span class="px-3 py-1 bg-gray-200 text-gray-800 rounded-full text-sm font-medium whitespace-nowrap">🗑️ ยกเลิกแล้ว</span>';
+                else statusBadge = '<span class="px-3 py-1 bg-red-200 text-red-800 rounded-full text-sm font-medium whitespace-nowrap">❌ ไม่อนุมัติ</span>';
+                return `
+                    <div class="rounded-lg p-4 ${roomBgColor} ${roomBorderColor} shadow-md relative">
+                        <button onclick="deleteUserCancelledBooking('${booking.id}')" 
+                                class="absolute top-2 right-2 text-green-500 hover:text-green-700 text-2xl transition-colors duration-200 hover:bg-green-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+                        <div class="flex justify-between items-start pr-10">
+                            <div class="flex-1">
+                                <h4 class="font-bold ${roomTextColor} text-lg">${booking.topic}</h4>
+                                <p class="${roomTextColor}">🏢 ${roomNames[booking.room]}</p>
+                                <p class="${roomTextColor}">📅 ${booking.date} ⏰ ${booking.startTime} น. - ${booking.endTime} น.</p>
+                                <p class="${roomTextColor}">👤 ${booking.bookerName} (${booking.workGroup})</p>
+                                ${booking.equipment && booking.equipment.length > 0 ? `<p class="${roomTextColor}">🔧 ${booking.equipment.join(', ')}</p>` : ''}
+                                ${booking.status === 'rejected' && booking.rejectReason ? `<p class="text-red-600 mt-2 font-medium">❌ เหตุผล: ${booking.rejectReason}</p>` : ''}
+                            </div>
+                            <div class="text-right">
+                                ${statusBadge}
+                                ${(booking.status === 'pending' || booking.status === 'approved') ? `
+                                    <button onclick="cancelBooking('${booking.id}')" 
+                                            class="block bg-red-500 text-white px-3 py-2 rounded-lg text-sm hover:bg-red-600 transition mt-2">
+                                        ยกเลิกการจอง
+                                    </button>` : ''}
+                            </div>
+                        </div>
+                    </div>`;
+            }).join('');
+        }
+
+        async function loadAdminPanel() {
+            try {
+                const pendingBookings = bookings.filter(b => b.status === 'pending');
+                const cancelledBookings = bookings.filter(b => b.status === 'cancelled');
+                const roomNames = { 'room1': 'ห้องประชุมอิ่มใจ', 'room2': 'ห้องประชุมอิ่มสุข', 'room3': 'ห้องประชุมเนตรประชา', 'room4': 'Working Space' };
+
+                const pendingContainer = document.getElementById('pendingBookings');
+                if (pendingBookings.length === 0) {
+                    pendingContainer.innerHTML = '<p class="text-gray-500 text-center">ไม่มีรายการรออนุมัติ</p>';
+                } else {
+                    pendingContainer.innerHTML = pendingBookings.map(booking => {
+                        let roomBgColor, roomTextColor, roomBorderColor;
+                        switch (booking.room) {
+                            case 'room1': roomBgColor = 'bg-gradient-to-br from-cyan-50 to-cyan-100'; roomTextColor = 'text-cyan-800'; roomBorderColor = 'border-l-4 border-cyan-400'; break;
+                            case 'room2': roomBgColor = 'bg-gradient-to-br from-teal-50 to-teal-100'; roomTextColor = 'text-teal-800'; roomBorderColor = 'border-l-4 border-teal-400'; break;
+                            case 'room3': roomBgColor = 'bg-gradient-to-br from-emerald-50 to-emerald-100'; roomTextColor = 'text-emerald-800'; roomBorderColor = 'border-l-4 border-emerald-500'; break;
+                            case 'room4': roomBgColor = 'bg-gradient-to-br from-pink-50 to-pink-100'; roomTextColor = 'text-pink-800'; roomBorderColor = 'border-l-4 border-pink-400'; break;
+                            default: roomBgColor = 'bg-yellow-50'; roomTextColor = 'text-yellow-800'; roomBorderColor = 'border-l-4 border-yellow-400';
+                        }
+                        return `
+                            <div class="rounded-lg p-4 ${roomBgColor} ${roomBorderColor} shadow-md">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex-1">
+                                        <h4 class="font-bold ${roomTextColor} text-lg">${booking.topic}</h4>
+                                        <p class="${roomTextColor}">🏢 ${roomNames[booking.room]}</p>
+                                        <p class="${roomTextColor}">📅 ${booking.date} ⏰ ${booking.startTime} น. - ${booking.endTime} น.</p>
+                                        <p class="${roomTextColor}">👤 ${booking.bookerName} (${booking.workGroup})</p>
+                                        <p class="${roomTextColor}">📞 ${booking.phone}</p>
+                                        ${booking.equipment && booking.equipment.length > 0 ? `<p class="${roomTextColor}">🔧 ${booking.equipment.join(', ')}</p>` : ''}
+                                    </div>
+                                    <div class="space-x-2">
+                                        <button onclick="approveBooking('${booking.id}')" 
+                                                class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition font-medium">✅ อนุมัติ</button>
+                                        <button onclick="showRejectModal('${booking.id}')" 
+                                                class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition font-medium">❌ ไม่อนุมัติ</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }).join('');
+                }
+
+                const cancelledContainer = document.getElementById('cancelledBookings');
+                if (cancelledBookings.length === 0) {
+                    cancelledContainer.innerHTML = '<p class="text-gray-500 text-center">ไม่มีรายการที่ยกเลิก</p>';
+                } else {
+                    cancelledContainer.innerHTML = cancelledBookings.map(booking => {
+                        let roomBgColor, roomTextColor, roomBorderColor;
+                        switch (booking.room) {
+                            case 'room1': roomBgColor = 'bg-gradient-to-br from-gray-100 via-cyan-50 to-gray-100'; roomTextColor = 'text-gray-700'; roomBorderColor = 'border-l-4 border-cyan-300'; break;
+                            case 'room2': roomBgColor = 'bg-gradient-to-br from-gray-100 via-teal-50 to-gray-100'; roomTextColor = 'text-gray-700'; roomBorderColor = 'border-l-4 border-teal-300'; break;
+                            case 'room3': roomBgColor = 'bg-gradient-to-br from-gray-100 via-emerald-50 to-gray-100'; roomTextColor = 'text-gray-700'; roomBorderColor = 'border-l-4 border-emerald-300'; break;
+                            case 'room4': roomBgColor = 'bg-gradient-to-br from-gray-100 via-pink-50 to-gray-100'; roomTextColor = 'text-gray-700'; roomBorderColor = 'border-l-4 border-pink-300'; break;
+                            default: roomBgColor = 'bg-gray-100'; roomTextColor = 'text-gray-700'; roomBorderColor = 'border-l-4 border-gray-400';
+                        }
+                        return `
+                            <div class="rounded-lg p-4 ${roomBgColor} ${roomBorderColor} shadow-md opacity-75">
+                                <div class="flex justify-between items-start">
+                                    <div class="flex-1">
+                                        <h4 class="font-bold ${roomTextColor} text-lg line-through">${booking.topic}</h4>
+                                        <p class="${roomTextColor}">🏢 ${roomNames[booking.room]}</p>
+                                        <p class="${roomTextColor}">📅 ${booking.date} ⏰ ${booking.startTime} น. - ${booking.endTime} น.</p>
+                                        <p class="${roomTextColor}">👤 ${booking.bookerName} (${booking.workGroup})</p>
+                                        <p class="${roomTextColor}">📞 ${booking.phone}</p>
+                                        ${booking.equipment && booking.equipment.length > 0 ? `<p class="${roomTextColor}">🔧 ${booking.equipment.join(', ')}</p>` : ''}
+                                        <p class="text-gray-600 mt-2 font-medium">🗑️ ยกเลิกเมื่อ: ${booking.cancelledAt ? new Date(booking.cancelledAt).toLocaleString('th-TH') : 'ไม่ระบุ'}</p>
+                                    </div>
+                                    <div>
+                                        <button onclick="deleteCancelledBooking('${booking.id}')" 
+                                                class="text-red-500 hover:text-red-700 text-2xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+                                    </div>
+                                </div>
+                            </div>`;
+                    }).join('');
+                }
+
+                await loadBookingHistory();
+            } catch (error) {
+                console.error('Error loading admin panel:', error);
+            }
+        }
+
+        async function loadBookingHistory() {
+            try {
+                const result = await apiCall('listHistory', {});
+                const allBookings = result.history;
+                const roomNames = { 'room1': 'ห้องประชุมอิ่มใจ', 'room2': 'ห้องประชุมอิ่มสุข', 'room3': 'ห้องประชุมเนตรประชา', 'room4': 'Working Space' };
+                const historyContainer = document.getElementById('bookingHistory');
+                if (allBookings.length === 0) {
+                    historyContainer.innerHTML = '<p class="text-gray-500 text-center">ยังไม่มีประวัติการจอง</p>';
+                    return;
+                }
+                const groupedByMonth = {};
+                allBookings.forEach(booking => {
+                    const date = new Date(booking.date);
+                    const monthKey = `${date.getFullYear()}-${String(date.getMonth()).padStart(2, '0')}`;
+                    const monthName = date.toLocaleDateString('th-TH', { year: 'numeric', month: 'long' });
+                    if (!groupedByMonth[monthKey]) groupedByMonth[monthKey] = { name: monthName, bookings: [], sortKey: monthKey };
+                    groupedByMonth[monthKey].bookings.push(booking);
+                });
+                const sortedMonths = Object.values(groupedByMonth)
+                    .sort((a, b) => b.sortKey.localeCompare(a.sortKey))
+                    .map(month => { month.bookings.sort((a, b) => new Date(a.date) - new Date(b.date)); return month; });
+
+                historyContainer.innerHTML = `
+                    <div class="grid gap-6">
+                        ${sortedMonths.map(month => `
+                            <div class="border rounded-lg p-6 bg-gradient-to-br from-purple-50 to-blue-50 shadow-lg relative">
+                                <button onclick="deleteMonthHistory('${month.sortKey}')" 
+                                        class="absolute top-4 right-4 text-red-500 hover:text-red-700 text-xl transition-colors duration-200 hover:bg-red-100 rounded-full w-8 h-8 flex items-center justify-center">×</button>
+                                <h4 class="font-bold text-purple-700 mb-6 text-xl flex items-center">
+                                    📅 ${month.name}
+                                    <span class="ml-3 bg-purple-200 text-purple-800 px-3 py-1 rounded-full text-sm">${month.bookings.length} รายการ</span>
+                                </h4>
+                                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    ${month.bookings.map(booking => {
+                                        const bookingDate = new Date(booking.date);
+                                        const dayName = bookingDate.toLocaleDateString('th-TH', { weekday: 'short' });
+                                        const dayNumber = bookingDate.getDate();
+                                        let roomBgColor, roomTextColor, roomBorderColor, roomDateBg, roomDateText;
+                                        switch (booking.room) {
+                                            case 'room1': roomBgColor = 'bg-gradient-to-br from-cyan-50 to-white'; roomTextColor = 'text-cyan-800'; roomBorderColor = 'border-l-4 border-cyan-400'; roomDateBg = 'bg-cyan-100'; roomDateText = 'text-cyan-600'; break;
+                                            case 'room2': roomBgColor = 'bg-gradient-to-br from-teal-50 to-white'; roomTextColor = 'text-teal-800'; roomBorderColor = 'border-l-4 border-teal-400'; roomDateBg = 'bg-teal-100'; roomDateText = 'text-teal-600'; break;
+                                            case 'room3': roomBgColor = 'bg-gradient-to-br from-emerald-50 to-white'; roomTextColor = 'text-emerald-800'; roomBorderColor = 'border-l-4 border-emerald-500'; roomDateBg = 'bg-emerald-100'; roomDateText = 'text-emerald-600'; break;
+                                            case 'room4': roomBgColor = 'bg-gradient-to-br from-pink-50 to-white'; roomTextColor = 'text-pink-800'; roomBorderColor = 'border-l-4 border-pink-400'; roomDateBg = 'bg-pink-100'; roomDateText = 'text-pink-600'; break;
+                                            default: roomBgColor = 'bg-white'; roomTextColor = 'text-gray-800'; roomBorderColor = 'border-l-4 border-purple-400'; roomDateBg = 'bg-purple-100'; roomDateText = 'text-purple-600';
+                                        }
+                                        const uniqueId = booking.id;
+                                        return `
+                                            <div class="${roomBgColor} rounded-lg p-4 ${roomBorderColor} shadow-md hover:shadow-lg transition-shadow cursor-pointer relative" onclick='showBookingDetail(${JSON.stringify(booking)})'>
+                                                <button onclick="event.stopPropagation(); deleteBookingFromHistory('${uniqueId}')" 
+                                                        class="absolute top-2 right-2 text-red-500 hover:text-red-700 text-lg transition-colors duration-200 hover:bg-red-100 rounded-full w-6 h-6 flex items-center justify-center">×</button>
+                                                <div class="flex items-start space-x-3">
+                                                    <div class="${roomDateBg} rounded-lg p-2 text-center min-w-[50px]">
+                                                        <div class="text-xs ${roomDateText} font-medium">${dayName}</div>
+                                                        <div class="text-lg font-bold ${roomTextColor}">${dayNumber}</div>
+                                                    </div>
+                                                    <div class="flex-1 min-w-0 pr-6">
+                                                        <p class="text-sm ${roomTextColor} flex items-center mt-1 font-medium">🏢 ${roomNames[booking.room]}</p>
+                                                        <p class="text-xs ${roomTextColor} opacity-75 mt-1">คลิกเพื่อดูรายละเอียด</p>
+                                                    </div>
+                                                </div>
+                                            </div>`;
+                                    }).join('')}
+                                </div>
+                            </div>`).join('')}
+                    </div>`;
+            } catch (error) {
+                console.error('Error loading booking history:', error);
+            }
+        }
+
+        async function deleteCancelledBooking(bookingId) {
+            if (confirm('⚠️ คุณต้องการลบรายการนี้ออกจากระบบหรือไม่?')) {
+                try {
+                    await apiCall('deleteBooking', { bookingId });
+                    loadBookings();
+                } catch (error) {
+                    alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+                }
+            }
+        }
+
+        async function deleteUserCancelledBooking(bookingId) {
+            try {
+                await apiCall('deleteBooking', { bookingId });
+                loadBookings();
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        async function approveBooking(bookingId) {
+            try {
+                await apiCall('approveBooking', { bookingId });
+                alert('✅ อนุมัติการจองสำเร็จ!');
+                loadBookings();
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        let currentRejectBookingId = null;
+        function showRejectModal(bookingId) {
+            currentRejectBookingId = bookingId;
+            document.getElementById('rejectModal').classList.remove('hidden');
+        }
+        function closeRejectModal() {
+            document.getElementById('rejectModal').classList.add('hidden');
+            document.getElementById('rejectForm').reset();
+            currentRejectBookingId = null;
+        }
+
+        async function rejectBooking() {
+            try {
+                const reason = document.getElementById('rejectReason').value;
+                if (!reason.trim()) { alert('กรุณาระบุเหตุผล'); return; }
+                await apiCall('rejectBooking', { bookingId: currentRejectBookingId, reason });
+                alert('❌ ไม่อนุมัติการจองสำเร็จ!');
+                closeRejectModal();
+                loadBookings();
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+            }
+        }
+
+        function updateUI() {
+            if (currentUser) {
+                document.getElementById('loginMenu').classList.add('hidden');
+                document.getElementById('userMenu').classList.remove('hidden');
+                document.getElementById('myBookings').classList.remove('hidden');
+                if (currentUser.role === 'admin') document.getElementById('adminMenuBtn').classList.remove('hidden');
+            } else {
+                document.getElementById('loginMenu').classList.remove('hidden');
+                document.getElementById('userMenu').classList.add('hidden');
+                document.getElementById('adminMenuBtn').classList.add('hidden');
+                document.getElementById('myBookings').classList.add('hidden');
+                document.getElementById('adminPanel').classList.add('hidden');
+                document.getElementById('homePage').classList.remove('hidden');
+            }
+        }
+
+        function logout() {
+            currentUser = null;
+            bookings = [];
+            updateUI();
+        }
+
+        function backToHome() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('homePage').classList.remove('hidden');
+        }
+
+        // Event listeners
+        document.getElementById('loginBtn').addEventListener('click', showLoginModal);
+        document.getElementById('logoutBtn').addEventListener('click', logout);
+        document.getElementById('adminMenuBtn').addEventListener('click', function() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('adminPanel').classList.remove('hidden');
+        });
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            login(document.getElementById('loginId').value, document.getElementById('loginPassword').value);
+        });
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            register(document.getElementById('regId').value, document.getElementById('regPassword').value, document.getElementById('regName').value);
+        });
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.error-indicator').forEach(el => el.remove());
+            const roomSelect = document.getElementById('bookingRoom');
+            const dateInput = document.getElementById('bookingDate');
+            const startTimeSelect = document.getElementById('bookingStartTime');
+            const endTimeSelect = document.getElementById('bookingEndTime');
+            const bookerNameInput = document.getElementById('bookerName');
+            const phoneInput = document.getElementById('bookerPhone');
+            const workGroupSelect = document.getElementById('workGroup');
+            const topicTextarea = document.getElementById('meetingTopic');
+
+            const hasSelectedDates = selectedDatesArray.length > 0;
+            const hasSingleDate = dateInput.value.trim();
+            if (!hasSelectedDates && !hasSingleDate) { alert('⚠️ กรุณาเลือกวันที่อย่างน้อย 1 วัน'); return; }
+
+            let hasError = false;
+            const requiredFields = [roomSelect, startTimeSelect, endTimeSelect, bookerNameInput, phoneInput, workGroupSelect, topicTextarea];
+            if (!hasSelectedDates) requiredFields.push(dateInput);
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    hasError = true;
+                    const errorIcon = document.createElement('span');
+                    errorIcon.className = 'error-indicator text-red-500 text-xl absolute right-3 top-1/2 transform -translate-y-1/2';
+                    errorIcon.innerHTML = '❌';
+                    field.parentElement.style.position = 'relative';
+                    field.parentElement.appendChild(errorIcon);
+                }
+            });
+            if (hasError) return;
+
+            const equipment = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+            const bookingData = {
+                room: roomSelect.value, date: dateInput.value,
+                startTime: startTimeSelect.value, endTime: endTimeSelect.value,
+                equipment: equipment, bookerName: bookerNameInput.value,
+                phone: phoneInput.value, workGroup: workGroupSelect.value, topic: topicTextarea.value
+            };
+            if (bookingData.startTime >= bookingData.endTime) { alert('⚠️ เวลาเริ่มต้นต้องน้อยกว่าเวลาสิ้นสุด'); return; }
+            createBooking(bookingData);
+        });
+        document.getElementById('rejectForm').addEventListener('submit', function(e) { e.preventDefault(); rejectBooking(); });
+        document.getElementById('forgotPasswordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            changePassword(document.getElementById('forgotId').value, document.getElementById('newPassword').value, document.getElementById('confirmNewPassword').value);
+        });
+        document.getElementById('forgotId').addEventListener('input', function() { this.value = this.value.replace(/[^0-9]/g, ''); });
+
+        // Booking detail modal
+        function showBookingDetail(bookingData) {
+            const roomNames = { 'room1': 'ห้องประชุมอิ่มใจ', 'room2': 'ห้องประชุมอิ่มสุข', 'room3': 'ห้องประชุมเนตรประชา', 'room4': 'Working Space' };
+            const bookingDate = new Date(bookingData.date);
+            const dateStr = bookingDate.toLocaleDateString('th-TH', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            const detailHTML = `
+                <div class="bg-gradient-to-br from-purple-50 to-blue-50 rounded-lg p-6">
+                    <h4 class="text-xl font-bold text-purple-800 mb-4">${bookingData.topic}</h4>
+                    <div class="grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="space-y-2">
+                            <p><span class="font-medium text-gray-700">🏢 ห้องประชุม:</span> ${roomNames[bookingData.room]}</p>
+                            <p><span class="font-medium text-gray-700">📅 วันที่:</span> ${dateStr}</p>
+                            <p><span class="font-medium text-gray-700">⏰ เวลา:</span> ${bookingData.startTime} น. - ${bookingData.endTime} น.</p>
+                            <p><span class="font-medium text-gray-700">👤 ผู้จอง:</span> ${bookingData.bookerName}</p>
+                        </div>
+                        <div class="space-y-2">
+                            <p><span class="font-medium text-gray-700">🏢 หน่วยงาน:</span> ${bookingData.workGroup}</p>
+                            <p><span class="font-medium text-gray-700">📞 เบอร์โทร:</span> ${bookingData.phone}</p>
+                            <p><span class="font-medium text-gray-700">🔧 อุปกรณ์:</span> ${bookingData.equipment && bookingData.equipment.length > 0 ? bookingData.equipment.join(', ') : 'ไม่ต้องการใช้'}</p>
+                        </div>
+                    </div>
+                </div>`;
+            document.getElementById('bookingDetailContent').innerHTML = detailHTML;
+            document.getElementById('bookingDetailModal').classList.remove('hidden');
+        }
+        function closeBookingDetailModal() { document.getElementById('bookingDetailModal').classList.add('hidden'); }
+
+        function showDeleteConfirmModal(bookingId, isMonth = false, monthKey = null) {
+            const popup = document.createElement('div');
+            popup.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+            popup.innerHTML = `
+                <div class="bg-white rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+                    <div class="text-center">
+                        <div class="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <span class="text-2xl text-red-600">🗑️</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">ยืนยันการลบ</h3>
+                        <p class="text-gray-600 mb-6">${isMonth ? 'คุณต้องการลบประวัติทั้งเดือนนี้หรือไม่?' : 'คุณต้องการลบรายการนี้ออกจากประวัติหรือไม่?'}</p>
+                        <div class="flex space-x-4">
+                            <button onclick="confirmDelete('${bookingId}', ${isMonth}, '${monthKey}', this.parentElement.parentElement.parentElement.parentElement)" 
+                                    class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-xl transition-all duration-300 font-medium">ยืนยัน</button>
+                            <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()" 
+                                    class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-xl transition-all duration-300 font-medium">ยกเลิก</button>
+                        </div>
+                    </div>
+                </div>`;
+            document.body.appendChild(popup);
+        }
+
+        async function confirmDelete(bookingId, isMonth, monthKey, popup) {
+            try {
+                if (isMonth) {
+                    await apiCall('deleteMonthHistory', { monthKey });
+                } else {
+                    await apiCall('deleteHistoryItem', { bookingId });
+                }
+                popup.remove();
+                await loadBookings();
+                showSuccessPopup('✅ ลบสำเร็จ!', 'ข้อมูลได้ถูกลบออกจากระบบเรียบร้อยแล้ว');
+            } catch (error) {
+                alert('❌ เกิดข้อผิดพลาด: ' + error.message);
+                popup.remove();
+            }
+        }
+
+        async function deleteBookingFromHistory(bookingId) { showDeleteConfirmModal(bookingId, false); }
+        async function deleteMonthHistory(monthKey) { showDeleteConfirmModal('', true, monthKey); }
+
+        // Initialize
+        updateUI();
+        loadBookings();
+    </script>
+</body>
+</html>
